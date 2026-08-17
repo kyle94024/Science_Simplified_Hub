@@ -84,9 +84,7 @@ These came out of the redesign and need a human decision:
    Confirm each entry, and do not add an institution without an advisor there.
 3. **Social links** (`src/data/site.js`, `socials`) — LinkedIn and X have no URL
    yet, so those icons are hidden. Add hrefs to switch them on.
-4. **EB Simplified** still points at `sseb.vercel.app` rather than a branded
-   domain.
-5. **Legal pages** — `/terms` and `/privacy` carry the text from the current
+4. **Legal pages** — `/terms` and `/privacy` carry the text from the current
    site verbatim (one typo fixed: "provied" → "provided").
 
 ## Assets
