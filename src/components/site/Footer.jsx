@@ -59,7 +59,7 @@ export default function Footer() {
 
           {footerNav.map((column) => (
             <div key={column.title}>
-              <h2 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-white">
+              <h2 className="kicker text-white">
                 {column.title}
               </h2>
               <ul className="mt-4 space-y-3">

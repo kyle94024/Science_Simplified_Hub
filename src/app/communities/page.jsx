@@ -51,7 +51,7 @@ export default function CommunitiesPage() {
   return (
     <>
       <section className="border-b border-line bg-gradient-to-b from-navy-50 to-white">
-        <div className="shell py-14 sm:py-20">
+        <div className="shell section">
           <h1 className="display-1">Our Communities</h1>
           <p className="lede mt-5 max-w-2xl">
             Science Simplified communities are disease-specific sites providing
@@ -74,7 +74,7 @@ export default function CommunitiesPage() {
         </div>
       </section>
 
-      <section className="shell py-14 sm:py-16">
+      <section className="shell section-tight">
         <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {communities.map((community, index) => (
             <li key={community.key}>
@@ -82,8 +82,8 @@ export default function CommunitiesPage() {
                 <a
                   href={community.href}
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-7 shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-lift"
+                  rel="noopener"
+                  className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-7 shadow-card transition-all duration-200 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-lift"
                   style={{ "--accent": community.accent }}
                 >
                   <CommunityLogo
@@ -102,6 +102,7 @@ export default function CommunitiesPage() {
                     style={{ color: community.accentDark }}
                   >
                     Visit Community
+                    <span className="sr-only"> (opens in new tab)</span>
                     <ArrowRight
                       className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                       aria-hidden="true"
@@ -120,7 +121,7 @@ export default function CommunitiesPage() {
         body="We're always working to expand. Partner with us to bring Science Simplified to your community."
       />
 
-      <section className="border-t border-line bg-canvas py-16 sm:py-20">
+      <section className="section border-t border-line bg-canvas">
         <div className="shell">
           <SectionHeading title="Every community site is:" rule />
 

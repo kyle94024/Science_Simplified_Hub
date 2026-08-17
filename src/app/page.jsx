@@ -3,10 +3,9 @@ import HowItWorks from "@/components/home/HowItWorks";
 import NetworkRow from "@/components/home/NetworkRow";
 import CtaBand from "@/components/site/CtaBand";
 
+// Only the canonical is set here; title and description come from the layout's
+// defaults, which are built from src/data/site.js — one source of truth.
 export const metadata = {
-  title: "Science Simplified — Making rare disease science accessible to all.",
-  description:
-    "Science Simplified helps scientists and rare disease organizations turn published research into expert-reviewed, plain-language summaries for patients and families.",
   alternates: { canonical: "/" },
 };
 
@@ -16,13 +15,11 @@ export default function HomePage() {
       <Hero />
       <HowItWorks />
       <NetworkRow />
-      <div className="pt-16 sm:pt-20">
-        <CtaBand
-          tone="tint"
-          title="Together, we can make rare disease science accessible to all."
-          body="Bring expert-reviewed, plain-language research summaries to the people you serve."
-        />
-      </div>
+      <CtaBand
+        tone="tint"
+        title="Together, we can make rare disease science accessible to all."
+        body="Bring expert-reviewed, plain-language research summaries to the people you serve."
+      />
     </>
   );
 }

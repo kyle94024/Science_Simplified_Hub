@@ -9,13 +9,13 @@ export const advisors = [
     name: "Vanessa Merker, PhD",
     role: "Faculty Advisor",
     communityKey: "NF",
-    photo: "/assets/people/vanessa-merker.png",
+    photo: "/assets/people/vanessa-merker.jpg",
   },
   {
     name: "Roxana Daneshjou, MD, PhD",
     role: "Faculty Advisor",
     communityKey: "NF",
-    photo: "/assets/people/roxana-daneshjou.png",
+    photo: "/assets/people/roxana-daneshjou.jpg",
   },
   {
     name: "Leandra Barnes, MD",
@@ -36,8 +36,11 @@ export const advisors = [
     photo: "/assets/people/paula-eichenbrenner.jpg",
   },
   {
-    name: "Katrin Ericson",
-    role: "Faculty Advisor",
+    // Listed as Faculty Advisor on runx1simplified.org/about; her bio there
+    // notes she has led the RUNX1 Research Program as Executive Director
+    // since 2018.
+    name: "Katrin Ericson, PhD",
+    role: "Executive Director, RUNX1 Research Program",
     communityKey: "RUNX1",
     photo: "/assets/people/katrin-ericson.jpeg",
   },

@@ -66,6 +66,7 @@ export default function Button({
         {...props}
       >
         {content}
+        <span className="sr-only"> (opens in new tab)</span>
       </a>
     );
   }

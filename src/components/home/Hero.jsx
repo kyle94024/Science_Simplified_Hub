@@ -1,7 +1,6 @@
-import { ShieldCheck } from "lucide-react";
-
 import Button from "@/components/ui/Button";
 import NetworkArt from "@/components/art/NetworkArt";
+import TrustCard from "@/components/site/TrustCard";
 
 export default function Hero() {
   return (
@@ -10,7 +9,7 @@ export default function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-navy-50 to-transparent"
         aria-hidden="true"
       />
-      <div className="shell relative grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+      <div className="shell section relative grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
         <div className="animate-fade-up">
           <h1 className="display-1 max-w-2xl">
             Making rare disease science easier to understand.
@@ -30,25 +29,14 @@ export default function Hero() {
             </Button>
           </div>
 
-          <div className="mt-10 flex max-w-xl items-start gap-4 rounded-2xl border border-line bg-white/70 p-5 backdrop-blur-sm">
-            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-violet-100 text-violet-600">
-              <ShieldCheck className="h-6 w-6" strokeWidth={1.8} aria-hidden="true" />
-            </span>
-            <div>
-              <p className="font-display font-semibold leading-snug text-navy-800">
-                Every summary is reviewed and edited by scientists and
-                physicians for accuracy before publication.
-              </p>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                Supported by scientists and physicians from leading academic and
-                medical institutions.
-              </p>
-            </div>
-          </div>
+          <TrustCard className="mt-10" />
         </div>
 
+        {/* box-shadow, not a drop-shadow filter: the SVG's outer element is an
+            opaque 30px-radius rect, so this renders identically without
+            rasterizing the artwork through a second filter pass. */}
         <div className="relative lg:pl-4">
-          <NetworkArt className="w-full drop-shadow-[0_24px_48px_rgba(15,28,51,0.10)]" />
+          <NetworkArt className="w-full rounded-[30px] shadow-[0_24px_48px_rgba(15,28,51,0.10)]" />
         </div>
       </div>
     </section>

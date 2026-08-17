@@ -16,9 +16,7 @@ export default function SectionHeading({
       {rule ? (
         <div className="flex items-center gap-5">
           <span className="hidden h-px flex-1 bg-line sm:block" />
-          <h2 className="display-2 text-center text-[1.6rem] sm:shrink-0 sm:text-[2rem]">
-            {title}
-          </h2>
+          <h2 className="display-2 text-center sm:shrink-0">{title}</h2>
           <span className="hidden h-px flex-1 bg-line sm:block" />
         </div>
       ) : (

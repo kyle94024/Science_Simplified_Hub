@@ -15,8 +15,16 @@ export default function Header() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+
+    // The open panel locks scroll and feels modal, so Escape should close it.
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    if (open) document.addEventListener("keydown", onKeyDown);
+
     return () => {
       document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
 
@@ -62,7 +70,8 @@ export default function Header() {
           onClick={() => setOpen((value) => !value)}
           className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line text-navy-800 md:hidden"
           aria-expanded={open}
-          aria-controls="mobile-nav"
+          // Only referenced while the panel exists, so the id never dangles.
+          aria-controls={open ? "mobile-nav" : undefined}
           aria-label={open ? "Close menu" : "Open menu"}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

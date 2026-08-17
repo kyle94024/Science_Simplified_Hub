@@ -103,7 +103,7 @@ export default function PartnerPage() {
   return (
     <>
       <section className="border-b border-line bg-gradient-to-b from-navy-50 to-white">
-        <div className="shell grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
+        <div className="shell section grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
           <div>
             <div className="flex items-center gap-3">
               <IconBadge icon={Users} tone="violet" size="sm" />
@@ -140,7 +140,7 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section className="shell py-14 sm:py-20">
+      <section className="shell section">
         <ul className="grid gap-6 lg:grid-cols-2">
           {audiences.map((audience, index) => (
             <li key={audience.title}>
@@ -189,7 +189,7 @@ export default function PartnerPage() {
 
       <section
         id="get-involved"
-        className="border-y border-line bg-canvas py-14 sm:py-16"
+        className="section-tight border-y border-line bg-canvas"
       >
         <div className="shell grid gap-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
           <IconBadge icon={GraduationCap} tone="amber" size="lg" />
@@ -209,12 +209,10 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section id="contact" className="shell py-16 sm:py-20">
+      <section id="contact" className="shell section">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <div>
-            <h2 className="display-2 text-[1.9rem] sm:text-[2.1rem]">
-              Start the Conversation
-            </h2>
+            <h2 className="display-2">Start the Conversation</h2>
             <p className="mt-4 leading-relaxed text-body">
               Whether you represent an organization, are a researcher, or want
               to volunteer, we&apos;d love to hear from you. You can also email

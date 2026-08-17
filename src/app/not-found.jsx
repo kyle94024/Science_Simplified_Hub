@@ -12,11 +12,14 @@ export default function NotFound() {
         we&apos;ll point you in the right direction.
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Button href="/" size="lg">
-          Back to home
+        <Button href="/" size="lg" arrow={false}>
+          Back to Home
         </Button>
         <Button href="/communities" variant="outline" size="lg">
           Our Communities
+        </Button>
+        <Button href="/partner#contact" variant="outline" size="lg">
+          Get in Touch
         </Button>
       </div>
     </section>

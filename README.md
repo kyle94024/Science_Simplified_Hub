@@ -85,7 +85,13 @@ These came out of the redesign and need a human decision:
 3. **Social links** (`src/data/site.js`, `socials`) — LinkedIn and X have no URL
    yet, so those icons are hidden. Add hrefs to switch them on.
 4. **Legal pages** — `/terms` and `/privacy` carry the text from the current
-   site verbatim (one typo fixed: "provied" → "provided").
+   site verbatim (one typo fixed: "provied" → "provided"). The privacy page's
+   "support team" line now points at info@, and its account language is scoped
+   to the community sites; skim both once more before launch.
+5. **NF logo resolution** — the NF Simplified lockup is only 196×53 (the largest
+   export in the platform repo), so it renders slightly soft on retina screens.
+   Re-export it at ~450px wide and replace
+   `public/assets/communities/nf.png` when you can.
 
 ## Assets
 

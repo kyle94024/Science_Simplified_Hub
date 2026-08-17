@@ -31,11 +31,15 @@ module.exports = {
           600: "#5B2BC9",
           700: "#4A21A6",
         },
-        mint: { 100: "#DFF1EA", 500: "#2E8F76" },
+        // mint-500 is icon-on-mint-100 only; mint-700 is the text-safe step
+        // (≥4.5:1 on white) for small copy like the form success message.
+        mint: { 100: "#DFF1EA", 500: "#2E8F76", 700: "#1F6B57" },
         amber: { 100: "#FCEFCE", 500: "#B98213" },
         ink: "#0F1C33",
         body: "#455066",
-        muted: "#6B7793",
+        // Dark enough to keep ≥4.5:1 on the canvas background, where it is
+        // used for small kickers and captions.
+        muted: "#5C6883",
         line: "#E5E9F3",
         surface: "#FFFFFF",
         canvas: "#F7F8FC",

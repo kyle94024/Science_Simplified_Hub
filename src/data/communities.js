@@ -12,6 +12,9 @@ export const communities = [
     disease: "Neurofibromatosis",
     blurb: "Neurofibromatosis research explained in plain language.",
     href: "https://www.nfsimplified.com",
+    // KNOWN LIMITATION: this lockup is only 196×53 — the largest export that
+    // exists anywhere in the platform repo — so it renders slightly soft on
+    // retina displays. Replace with a ~450px-wide export when one is made.
     logo: "/assets/communities/nf.png",
     accent: "#4CB19F",
     accentDark: "#2F7C6D",

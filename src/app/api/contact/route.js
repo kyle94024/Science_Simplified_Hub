@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 import { site } from "@/data/site";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
 
 const MAX_LENGTHS = {
   name: 120,
@@ -21,8 +20,14 @@ const MAX_PER_WINDOW = 3;
 function isThrottled(key) {
   const now = Date.now();
   const hits = (recent.get(key) || []).filter((time) => now - time < WINDOW_MS);
-  hits.push(now);
-  recent.set(key, hits);
+  const throttled = hits.length >= MAX_PER_WINDOW;
+
+  // Only allowed requests count toward the window, so rejected retries do not
+  // keep extending the lockout.
+  if (!throttled) {
+    hits.push(now);
+    recent.set(key, hits);
+  }
 
   if (recent.size > 500) {
     for (const [entry, times] of recent) {
@@ -30,7 +35,18 @@ function isThrottled(key) {
     }
   }
 
-  return hits.length > MAX_PER_WINDOW;
+  return throttled;
+}
+
+// Platform-set headers first: on Vercel, x-real-ip comes from the edge and
+// cannot be spoofed by the client, unlike the leftmost x-forwarded-for entry.
+function clientIp(request) {
+  return (
+    request.headers.get("x-real-ip") ||
+    request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "unknown"
+  );
 }
 
 function escapeHtml(value) {
@@ -84,9 +100,7 @@ export async function POST(request) {
     }
   }
 
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (isThrottled(ip)) {
+  if (isThrottled(clientIp(request))) {
     return Response.json(
       { error: "Too many messages just now. Please try again in a minute." },
       { status: 429 }
@@ -123,7 +137,10 @@ export async function POST(request) {
     await transporter.sendMail({
       from: `"Science Simplified" <${user}>`,
       to: process.env.CONTACT_TO || user,
-      replyTo: `${name} <${email}>`,
+      // Object form so nodemailer encodes the display name; interpolating the
+      // user-supplied name into an address string lets a crafted name replace
+      // the validated reply address.
+      replyTo: { name, address: email },
       subject: `Partner enquiry — ${organization || name}`,
       text: `${rows.map(([label, value]) => `${label}: ${value}`).join("\n")}\n\n${message}`,
       html: `

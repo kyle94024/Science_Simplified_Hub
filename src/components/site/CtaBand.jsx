@@ -14,7 +14,7 @@ export default function CtaBand({
 }) {
   if (tone === "tint") {
     return (
-      <section id={id} className="shell pb-16 sm:pb-20">
+      <section id={id} className="shell section-tight">
         <div className="flex flex-col gap-6 rounded-3xl border border-violet-200 bg-violet-50 px-6 py-8 sm:px-10 sm:py-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-start gap-5">
             <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-navy-800 shadow-card sm:inline-flex">
@@ -22,9 +22,7 @@ export default function CtaBand({
             </span>
             <div>
               {eyebrow ? <p className="eyebrow mb-2">{eyebrow}</p> : null}
-              <h2 className="font-display text-xl font-bold text-navy-800 sm:text-2xl">
-                {title}
-              </h2>
+              <h2 className="heading-3">{title}</h2>
               {body ? (
                 <p className="mt-2 max-w-2xl text-body">{body}</p>
               ) : null}
@@ -52,11 +50,7 @@ export default function CtaBand({
             <LogoMark className="h-8 w-8" accent="#C2B2F8" />
           </span>
           <div>
-            {eyebrow ? (
-              <p className="font-display text-sm font-bold uppercase tracking-[0.14em] text-violet-300">
-                {eyebrow}
-              </p>
-            ) : null}
+            {eyebrow ? <p className="eyebrow text-violet-300">{eyebrow}</p> : null}
             <h2 className="mt-2 font-display text-2xl font-bold text-white sm:text-3xl">
               {title}
             </h2>

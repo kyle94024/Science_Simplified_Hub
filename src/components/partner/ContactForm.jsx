@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Loader2, Lock } from "lucide-react";
+import { Loader2, Lock } from "lucide-react";
+
+import Button from "@/components/ui/Button";
+import { site } from "@/data/site";
 
 const initialValues = {
   name: "",
@@ -11,20 +14,60 @@ const initialValues = {
   website: "", // honeypot — real people leave this empty
 };
 
+const REQUIRED_FIELDS = ["name", "email", "message"];
+
+// Thrown for messages our own API produced; anything else (offline, DNS,
+// server unreachable) surfaces as a browser TypeError we never show raw.
+class ServerMessageError extends Error {}
+
 const inputClasses =
-  "w-full rounded-xl border border-line bg-white px-4 py-3 text-[0.95rem] text-ink placeholder:text-muted/80 transition-colors focus:border-navy-400";
+  "w-full rounded-xl border border-line bg-white px-4 py-3 text-[0.95rem] text-ink placeholder:text-muted transition-colors focus:border-navy-400 aria-[invalid]:border-red-400";
+
+function FieldLabel({ htmlFor, children, required = false }) {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="mb-1.5 block font-display text-sm font-semibold text-navy-800"
+    >
+      {children}
+      {required ? (
+        <span aria-hidden="true" className="text-violet-600">
+          {" "}
+          *
+        </span>
+      ) : (
+        <span className="font-normal text-muted"> (optional)</span>
+      )}
+    </label>
+  );
+}
 
 export default function ContactForm() {
   const [values, setValues] = useState(initialValues);
   const [status, setStatus] = useState({ state: "idle", message: "" });
+  const [invalidFields, setInvalidFields] = useState([]);
 
-  const update = (field) => (event) =>
+  const update = (field) => (event) => {
     setValues((current) => ({ ...current, [field]: event.target.value }));
+    setInvalidFields((current) => current.filter((name) => name !== field));
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
     if (status.state === "sending") return;
 
+    const missing = REQUIRED_FIELDS.filter((field) => !values[field].trim());
+    if (missing.length) {
+      setInvalidFields(missing);
+      setStatus({
+        state: "error",
+        message: "Please add your name, email, and a message.",
+      });
+      document.getElementById(missing[0])?.focus();
+      return;
+    }
+
+    setInvalidFields([]);
     setStatus({ state: "sending", message: "" });
 
     try {
@@ -36,7 +79,9 @@ export default function ContactForm() {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.error || "Something went wrong. Please try again.");
+        throw new ServerMessageError(
+          data.error || `We couldn't send that. Please email ${site.email} directly.`
+        );
       }
 
       setValues(initialValues);
@@ -48,77 +93,72 @@ export default function ContactForm() {
       setStatus({
         state: "error",
         message:
-          error.message ||
-          "We couldn't send that. Please email info@scisimplified.org directly.",
+          error instanceof ServerMessageError
+            ? error.message
+            : `We couldn't send that. Please email ${site.email} directly.`,
       });
     }
   }
 
   const sending = status.state === "sending";
+  const fieldProps = (field) => ({
+    id: field,
+    name: field,
+    value: values[field],
+    onChange: update(field),
+    "aria-invalid": invalidFields.includes(field) || undefined,
+    "aria-describedby": invalidFields.includes(field) ? "form-status" : undefined,
+  });
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="mt-7 space-y-3">
-      <div className="grid gap-3 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} noValidate className="mt-7 space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="sr-only">
+          <FieldLabel htmlFor="name" required>
             Your name
-          </label>
+          </FieldLabel>
           <input
-            id="name"
-            name="name"
+            {...fieldProps("name")}
             autoComplete="name"
             required
-            value={values.name}
-            onChange={update("name")}
-            placeholder="Your Name"
+            placeholder="Jane Doe"
             className={inputClasses}
           />
         </div>
         <div>
-          <label htmlFor="organization" className="sr-only">
-            Organization
-          </label>
+          <FieldLabel htmlFor="organization">Organization</FieldLabel>
           <input
-            id="organization"
-            name="organization"
+            {...fieldProps("organization")}
             autoComplete="organization"
-            value={values.organization}
-            onChange={update("organization")}
-            placeholder="Organization"
+            placeholder="Rare Disease Foundation"
             className={inputClasses}
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="email" className="sr-only">
+        <FieldLabel htmlFor="email" required>
           Your email
-        </label>
+        </FieldLabel>
         <input
-          id="email"
-          name="email"
+          {...fieldProps("email")}
           type="email"
           autoComplete="email"
           required
-          value={values.email}
-          onChange={update("email")}
-          placeholder="Your Email"
+          placeholder="you@example.org"
           className={inputClasses}
         />
       </div>
 
       <div>
-        <label htmlFor="message" className="sr-only">
+        <FieldLabel htmlFor="message" required>
           How can we help?
-        </label>
+        </FieldLabel>
         <textarea
-          id="message"
-          name="message"
+          {...fieldProps("message")}
           rows={4}
           required
-          value={values.message}
-          onChange={update("message")}
-          placeholder="How can we help?"
+          placeholder="Tell us about your organization or research."
           className={`${inputClasses} resize-y`}
         />
       </div>
@@ -136,10 +176,12 @@ export default function ContactForm() {
         />
       </div>
 
-      <button
+      <Button
         type="submit"
+        size="lg"
         disabled={sending}
-        className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-navy-800 px-6 py-3.5 font-display font-semibold text-white shadow-card transition-all duration-200 hover:bg-navy-700 disabled:cursor-not-allowed disabled:opacity-70"
+        arrow={!sending}
+        className="w-full disabled:cursor-not-allowed disabled:opacity-70"
       >
         {sending ? (
           <>
@@ -147,21 +189,16 @@ export default function ContactForm() {
             Sending…
           </>
         ) : (
-          <>
-            Send Message
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-              aria-hidden="true"
-            />
-          </>
+          "Send Message"
         )}
-      </button>
+      </Button>
 
       <p
+        id="form-status"
         role="status"
         aria-live="polite"
         className={`min-h-[1.25rem] text-sm ${
-          status.state === "error" ? "text-red-600" : "text-mint-500"
+          status.state === "error" ? "text-red-600" : "text-mint-700"
         }`}
       >
         {status.message}

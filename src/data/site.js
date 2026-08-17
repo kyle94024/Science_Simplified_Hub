@@ -6,6 +6,12 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.scisimplified.org",
   email: "info@scisimplified.org",
   mailingAddress: "PO Box 20423, Stanford, CA 94309",
+  // The core trust claim, shown on the home and about pages via TrustCard.
+  trust: {
+    lead: "Every summary is reviewed and edited by scientists and physicians for accuracy before publication.",
+    support:
+      "Supported by scientists and physicians from leading academic and medical institutions.",
+  },
 };
 
 export const nav = [

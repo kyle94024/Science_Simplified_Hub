@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { ShieldCheck } from "lucide-react";
 
 import CtaBand from "@/components/site/CtaBand";
 import SectionHeading from "@/components/site/SectionHeading";
 import StoryArt from "@/components/art/StoryArt";
+import TrustCard from "@/components/site/TrustCard";
 import Reveal from "@/components/ui/Reveal";
 import { advisors, founder } from "@/data/advisors";
 import { communityByKey } from "@/data/communities";
@@ -27,7 +27,7 @@ export default function AboutPage() {
   return (
     <>
       <section className="border-b border-line bg-gradient-to-b from-navy-50 to-white">
-        <div className="shell grid items-start gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
+        <div className="shell section grid items-start gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <div>
             <h1 className="display-1">About Science Simplified</h1>
             <p className="lede mt-5 max-w-xl">
@@ -35,25 +35,7 @@ export default function AboutPage() {
               science that is understandable, accurate, and trustworthy.
             </p>
 
-            <div className="mt-9 flex max-w-xl items-start gap-4 rounded-2xl border border-line bg-white p-5 shadow-card">
-              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-violet-100 text-violet-600">
-                <ShieldCheck
-                  className="h-6 w-6"
-                  strokeWidth={1.8}
-                  aria-hidden="true"
-                />
-              </span>
-              <div className="space-y-2 text-[0.95rem] leading-relaxed">
-                <p className="text-navy-800">
-                  Every summary is reviewed and edited by scientists and
-                  physicians for accuracy before publication.
-                </p>
-                <p className="text-muted">
-                  Supported by scientists and physicians from leading academic
-                  and medical institutions.
-                </p>
-              </div>
-            </div>
+            <TrustCard className="mt-9" />
           </div>
 
           <div className="flex flex-col gap-0 sm:flex-row sm:items-stretch">
@@ -88,13 +70,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="shell py-14 sm:py-20">
+      <section className="shell section">
         <div className="overflow-hidden rounded-3xl border border-line bg-canvas">
           <div className="grid items-center gap-10 p-8 sm:p-12 lg:grid-cols-[1.1fr_1fr]">
             <div>
-              <h2 className="display-2 text-[1.9rem] sm:text-[2.2rem]">
-                Our Story
-              </h2>
+              <h2 className="display-2">Our Story</h2>
               <div className="mt-6 space-y-4 leading-relaxed text-body">
                 {story.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
@@ -112,6 +92,9 @@ export default function AboutPage() {
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {advisors.map((advisor, index) => {
             const community = communityByKey[advisor.communityKey];
+            // An advisor can be added ahead of their community's launch;
+            // skip the card rather than failing the whole build.
+            if (!community) return null;
             return (
               <li key={advisor.name}>
                 <Reveal delay={(index % 3) * 80} className="h-full">
@@ -127,9 +110,10 @@ export default function AboutPage() {
                     </span>
 
                     <span className="relative mt-5 h-24 w-24 overflow-hidden rounded-full ring-4 ring-navy-50">
+                      {/* Decorative: the name is announced once, by the h3. */}
                       <Image
                         src={advisor.photo}
-                        alt={advisor.name}
+                        alt=""
                         fill
                         sizes="96px"
                         className="object-cover"
@@ -148,12 +132,10 @@ export default function AboutPage() {
         </ul>
       </section>
 
-      <section className="border-y border-line bg-canvas py-16 sm:py-20">
+      <section className="section border-y border-line bg-canvas">
         <div className="shell grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div>
-            <h2 className="display-2 text-[1.9rem] sm:text-[2.1rem]">
-              Our Scientific Network
-            </h2>
+            <h2 className="display-2">Our Scientific Network</h2>
             <p className="mt-5 leading-relaxed text-body">
               Science Simplified is supported by researchers, clinicians, and
               rare disease organizations committed to scientific rigor and
@@ -165,9 +147,7 @@ export default function AboutPage() {
 
           <div className="space-y-8">
             <div>
-              <h3 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-muted">
-                Reviewer affiliations
-              </h3>
+              <h3 className="kicker text-muted">Reviewer affiliations</h3>
               <ul className="mt-4 flex flex-wrap gap-3">
                 {institutions.map((institution) => (
                   <li
@@ -188,9 +168,7 @@ export default function AboutPage() {
             </div>
 
             <div>
-              <h3 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-muted">
-                Partner organizations
-              </h3>
+              <h3 className="kicker text-muted">Partner organizations</h3>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {partnerOrgs.map((org) => (
                   <li
@@ -204,6 +182,7 @@ export default function AboutPage() {
                       className="font-display font-semibold text-navy-800 hover:text-violet-600"
                     >
                       {org.name}
+                      <span className="sr-only"> (opens in new tab)</span>
                     </a>
                     <p className="mt-0.5 text-sm text-muted">{org.community}</p>
                   </li>

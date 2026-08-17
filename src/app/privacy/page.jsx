@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy">
+    <LegalPage title="Privacy Policy" updated="August 17, 2026">
       <p>
         Welcome to the network of websites and services provided by Science
         Simplified (&ldquo;Science Simplified,&rdquo; &ldquo;us,&rdquo; or
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
         The information we collect is used to improve our website, provide
         better content, and offer personalized experiences. We may also use it
         for communication purposes, including providing news and updates, if you
-        have signed up for a user account.
+        have signed up for a user account on one of our community sites.
       </p>
 
       <h2>Data Protection</h2>
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
       <p>
         You have the right to access, correct, or delete any personal
         information we have collected about you. To make a request, please
-        contact our support team.
+        email us at <a href={`mailto:${site.email}`}>{site.email}</a>.
       </p>
 
       <h2>Changes to This Policy</h2>

@@ -33,7 +33,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="shell py-16 sm:py-20">
+    <section className="shell section">
       <SectionHeading title="How Science Simplified Works" rule />
 
       <ol className="mt-12 grid gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">

@@ -6,9 +6,9 @@ import { communities } from "@/data/communities";
 
 export default function NetworkRow() {
   return (
-    <section className="border-y border-line bg-canvas py-14 sm:py-16">
+    <section className="section-tight border-y border-line bg-canvas">
       <div className="shell">
-        <h2 className="text-center font-display text-xl font-bold text-navy-800 sm:text-2xl">
+        <h2 className="heading-3 text-center">
           A growing network of rare disease communities.
         </h2>
 
@@ -22,9 +22,9 @@ export default function NetworkRow() {
                 <a
                   href={community.href}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener"
                   className="transition-transform duration-200 hover:-translate-y-0.5"
-                  aria-label={`Visit ${community.name}`}
+                  aria-label={`Visit ${community.name} (opens in new tab)`}
                 >
                   <CommunityLogo
                     community={community}
